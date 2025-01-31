@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blazzy Portal</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #000428, #004e92);
+            color: #00ffcc;
+            font-family: 'Orbitron', sans-serif;
+            overflow-x: hidden;
+        }
+
+        canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 4rem;
+            color: #00e5ff;
+            text-shadow: 0 0 20px #00e5ff, 0 0 40px #00ffff;
+            margin-top: 2rem;
+        }
+
+        section {
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 2rem;
+        }
+
+        p {
+            font-size: 1.8rem;
+            text-align: center;
+            color: #aaffff;
+            text-shadow: 0 0 10px #00ffcc;
+        }
+
+        .iframe-container {
+            width: 90%;
+            max-width: 1200px;
+            height: 450px;
+            border: 2px solid #00ffcc;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 0 20px #00ffcc;
+            background: rgba(0, 0, 0, 0.7);
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .iframe-container:hover {
+            transform: scale(1.05);
+        }
+
+        iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        @media (max-width: 768px) {
+            .iframe-container {
+                height: 300px;
+            }
+            p {
+                font-size: 1.4rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <canvas id="matrixCanvas"></canvas>
+    <h1>Blazzy Portal</h1>
+    <section>
+        <p>Explore content from BLAZZY:</p>
+        <div class="iframe-container"><iframe data-src="https://welcomettmatrix.github.io/PASSCODES/"></iframe></div>
+        <div class="iframe-container"><iframe data-src="https://welcomettmatrix.github.io/TOKEN-PROMOTE/"></iframe></div>
+        <div class="iframe-container"><iframe data-src="https://welcomettmatrix.github.io/BLAZZYCRONOSCHAIN/"></iframe></div>
+        <div class="iframe-container"><iframe data-src="https://welcomettmatrix.github.io/blazzyapp/"></iframe></div>
+        <div class="iframe-container"><iframe data-src="https://welcomettmatrix.github.io/BLAZZYWEB/"></iframe></div>
+        <div class="iframe-container"><iframe data-src="https://welcomettmatrix.github.io/app/"></iframe></div>
+        <div class="iframe-container"><iframe data-src="https://welcomettmatrix.github.io/BLAZZY/"></iframe></div>
+        <div class="iframe-container"><iframe data-src="https://welcomettmatrix.github.io/stake/"></iframe></div>
+        <div class="iframe-container"><iframe data-src="https://welcomettmatrix.github.io/analisis/"></iframe></div>
+        <div class="iframe-container"><iframe data-src="https://welcomettmatrix.github.io/live-price/"></iframe></div>
+        <div class="iframe-container"><iframe data-src="https://welcomettmatrix.github.io/metaframe/"></iframe></div>
+        <div class="iframe-container"><iframe data-src="https://welcomettmatrix.github.io/roomframe/"></iframe></div>
+        <div class="iframe-container"><iframe data-src="https://ipfs.io/ipfs/QmaGjJR9WbEqcbZWTqut64iJfZ33PepcNBtsFwai7mZnKZ?filename=HH.png"></iframe></div>
+        <div class="iframe-container"><iframe data-src="https://welcomettmatrix.github.io/dapp/"></iframe></div>
+    </section>
+
+    <script>
+        // Matrix Animation Optimization
+        const canvas = document.getElementById('matrixCanvas');
+        const ctx = canvas.getContext('2d');
+
+        function setCanvasSize() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+
+        setCanvasSize();
+
+        const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+        let fontSize = Math.max(14, window.innerWidth / 110);
+        const columns = Math.floor(canvas.width / fontSize);
+        const drops = Array(columns).fill(1);
+
+        function drawMatrix() {
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            ctx.fillStyle = '#00ffcc';
+            ctx.font = `${fontSize}px monospace`;
+
+            for (let i = 0; i < drops.length; i++) {
+                const text = letters[Math.floor(Math.random() * letters.length)];
+                ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+
+                if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+                    drops[i] = 0;
+                }
+                drops[i]++;
+            }
+        }
+
+        function animate() {
+            drawMatrix();
+            requestAnimationFrame(animate);
+        }
+        animate();
+
+        // Throttled Resize Event
+        let resizeTimeout;
+        window.addEventListener('resize', () => {
+            clearTimeout(resizeTimeout);
+            resizeTimeout = setTimeout(() => {
+                setCanvasSize();
+                fontSize = Math.max(14, window.innerWidth / 110);
+                drops.length = Math.floor(canvas.width / fontSize);
+                drops.fill(1);
+            }, 300);
+        });
+
+        // Lazy Load Iframes (Loads only on hover)
+        document.addEventListener("DOMContentLoaded", function () {
+            const iframes = document.querySelectorAll(".iframe-container iframe");
+
+            iframes.forEach((iframe) => {
+                const src = iframe.getAttribute("data-src");
+                iframe.removeAttribute("src");
+
+                iframe.addEventListener("mouseover", () => {
+                    if (!iframe.getAttribute("src")) {
+                        iframe.setAttribute("src", src);
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
