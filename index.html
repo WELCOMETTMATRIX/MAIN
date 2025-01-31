@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blazzy Portal</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #000428, #004e92);
+            color: #00ffcc;
+            font-family: 'Orbitron', sans-serif;
+            overflow-x: hidden;
+        }
+
+        canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 4rem;
+            color: #00e5ff;
+            text-shadow: 0 0 30px #00e5ff, 0 0 60px #00ffff, 0 0 90px #00e5ff;
+            margin-top: 2rem;
+        }
+
+        section {
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 3rem;
+        }
+
+        p {
+            font-size: 1.8rem;
+            text-align: center;
+            margin-bottom: 2rem;
+            color: #aaffff;
+            text-shadow: 0 0 10px #00ffcc, 0 0 20px #00e5ff;
+        }
+
+        .iframe-container {
+            width: 90%;
+            max-width: 1200px;
+            height: 450px;
+            border: 3px solid #00ffcc;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 0 30px #00ffcc, 0 0 60px #00e5ff, 0 0 90px #00ffff;
+            transition: transform 0.4s ease-in-out, box-shadow 0.4s ease-in-out;
+            background: rgba(0, 0, 0, 0.7);
+        }
+
+        .iframe-container:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 50px #00ffcc, 0 0 100px #00e5ff, 0 0 150px #00ffff;
+        }
+
+        iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        @media (max-width: 768px) {
+            .iframe-container {
+                height: 300px;
+            }
+
+            p {
+                font-size: 1.4rem;
+            }
+        }
+
+    </style>
+</head>
+<body>
+    <canvas id="matrixCanvas"></canvas>
+    <h1>Blazzy Portal</h1>
+    <section>
+        <p>Explore content from BLAZZY:</p>
+        <div class="iframe-container">
+            <iframe src="https://welcomettmatrix.github.io/PASSCODES/" title="Blazzy Web"></iframe>
+        </div>
+        <div class="iframe-container">
+            <iframe src="https://welcomettmatrix.github.io/TOKEN-PROMOTE/" title="Blazzy Web"></iframe>
+        </div>
+        <div class="iframe-container">
+            <iframe src="https://welcomettmatrix.github.io/BLAZZYCRONOSCHAIN/" title="Blazzy Web"></iframe>
+        </div>
+        <div class="iframe-container">
+            <iframe src="https://welcomettmatrix.github.io/blazzyapp/" title="Blazzy Web"></iframe>
+        </div>
+        <div class="iframe-container">
+            <iframe src="https://welcomettmatrix.github.io/BLAZZYWEB/" title="Blazzy Web"></iframe>
+        </div>
+        <div class="iframe-container">
+            <iframe src="https://welcomettmatrix.github.io/app/" title="Blazzy Web"></iframe>
+        </div>
+        <div class="iframe-container">
+            <iframe src="https://welcomettmatrix.github.io/BLAZZY/" title="Hipi Laps"></iframe>
+        </div>
+        <div class="iframe-container">
+            <iframe src="https://welcomettmatrix.github.io/stake/" title="Stake"></iframe>
+        </div>
+        <div class="iframe-container">
+            <iframe src="https://welcomettmatrix.github.io/analisis/" title="Analysis"></iframe>
+        </div>
+        <div class="iframe-container">
+            <iframe src="https://welcomettmatrix.github.io/live-price/" title="Live Price"></iframe>
+        </div>
+        <div class="iframe-container">
+            <iframe src="https://welcomettmatrix.github.io/metaframe/" title="Metaframe"></iframe>
+        </div>
+        <div class="iframe-container">
+            <iframe src="https://welcomettmatrix.github.io/roomframe/" title="Roomframe"></iframe>
+        </div>
+        <div class="iframe-container">
+            <iframe src="https://ipfs.io/ipfs/QmaGjJR9WbEqcbZWTqut64iJfZ33PepcNBtsFwai7mZnKZ?filename=HH.png" title="Websites"></iframe>
+        </div>
+        <div class="iframe-container">
+            <iframe src="https://welcomettmatrix.github.io/dapp/" title="Dapp"></iframe>
+        </div>
+    </section>
+
+    <script>
+        const canvas = document.getElementById('matrixCanvas');
+        const ctx = canvas.getContext('2d');
+
+        function setCanvasSize() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+
+        setCanvasSize();
+
+        const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+        let fontSize = Math.max(16, window.innerWidth / 100);
+        const columns = Math.floor(canvas.width / fontSize);
+        const drops = Array(columns).fill(1);
+
+        function drawMatrix() {
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.2)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            ctx.fillStyle = '#00ffcc';
+            ctx.font = `${fontSize}px monospace`;
+
+            for (let i = 0; i < drops.length; i++) {
+                const text = letters[Math.floor(Math.random() * letters.length)];
+                ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+
+                if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+                    drops[i] = 0;
+                }
+
+                drops[i]++;
+            }
+        }
+
+        let lastTime = 0;
+        const fps = 30;
+
+        function animate(time) {
+            if (time - lastTime > 1000 / fps) {
+                drawMatrix();
+                lastTime = time;
+            }
+            requestAnimationFrame(animate);
+        }
+
+        animate(0);
+
+        window.addEventListener('resize', () => {
+            setCanvasSize();
+            fontSize = Math.max(16, window.innerWidth / 100);
+            drops.length = Math.floor(canvas.width / fontSize);
+            drops.fill(1);
+        });
+    </script>
+</body>
+</html>
